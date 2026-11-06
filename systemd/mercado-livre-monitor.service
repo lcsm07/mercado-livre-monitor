@@ -1,0 +1,7 @@
+[Unit]
+Description=Verificação do monitor privado de ofertas do Mercado Livre
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/mercado-livre-monitor
+ExecStart=/usr/bin/python3 -m src.main check

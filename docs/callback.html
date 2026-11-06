@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Autorização do Mercado Livre</title>
+    <style>
+      :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+      body { max-width: 42rem; margin: 4rem auto; padding: 0 1.25rem; line-height: 1.5; }
+      code, pre { overflow-wrap: anywhere; white-space: pre-wrap; }
+      pre { padding: 1rem; border-radius: .5rem; background: color-mix(in srgb, CanvasText 10%, Canvas); }
+      button { padding: .7rem 1rem; cursor: pointer; }
+      .ok { color: #16803c; }
+      .error { color: #b42318; }
+    </style>
+  </head>
+  <body>
+    <h1>Autorização do Mercado Livre</h1>
+    <p id="message">Lendo o retorno da autorização…</p>
+    <section id="result" hidden>
+      <p>Copie o código abaixo e use-o no comando <code>exchange-code</code> do monitor.</p>
+      <pre id="code"></pre>
+      <button id="copy" type="button">Copiar código</button>
+      <p>Por segurança, não compartilhe este código nem o conteúdo do seu arquivo <code>.env</code>.</p>
+      <p id="state"></p>
+    </section>
+    <script>
+      (() => {
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code');
+        const error = params.get('error');
+        const message = document.getElementById('message');
+        const result = document.getElementById('result');
+        const codeElement = document.getElementById('code');
+        const copyButton = document.getElementById('copy');
+        const stateElement = document.getElementById('state');
+
+        if (error) {
+          message.className = 'error';
+          message.textContent = `O Mercado Livre recusou a autorização: ${error}`;
+          return;
+        }
+        if (!code) {
+          message.className = 'error';
+          message.textContent = 'Nenhum código de autorização foi encontrado nesta URL.';
+          return;
+        }
+        message.className = 'ok';
+        message.textContent = 'Autorização recebida.';
+        result.hidden = false;
+        codeElement.textContent = code;
+        const state = params.get('state');
+        if (state) stateElement.textContent = `State recebido: ${state}`;
+        copyButton.addEventListener('click', async () => {
+          await navigator.clipboard.writeText(code);
+          copyButton.textContent = 'Código copiado';
+        });
+      })();
+    </script>
+  </body>
+</html>

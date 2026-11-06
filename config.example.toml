@@ -1,0 +1,49 @@
+[api]
+site_id = "MLB"
+base_url = "https://api.mercadolibre.com"
+oauth_base_url = "https://auth.mercadolivre.com.br"
+
+[runtime]
+database_path = "data/monitor.db"
+# Comece observando; mude para false somente depois de validar os resultados.
+dry_run = true
+notify_enabled = false
+request_spacing_seconds = 0.35
+request_timeout_seconds = 30
+max_retries = 4
+backoff_base_seconds = 2
+search_page_size = 50
+max_pages_per_query = 4
+max_items_per_request = 20
+relevant_drop_brl = 5
+exceptional_total = 1350
+
+[products.ryzen_7_5700x]
+name = "Ryzen 7 5700X"
+queries = [
+  "Ryzen 7 5700X",
+  "Ryzen 7 5700X OEM",
+  "Ryzen 7 5700X sem cooler",
+]
+target_price = 900
+max_total = 1450
+reference_item_ids = ["MLB4513151668"]
+alert_new_offers = true
+
+[products.b550m_aorus_elite]
+name = "Gigabyte B550M Aorus Elite DDR4"
+queries = [
+  "Gigabyte B550M Aorus Elite",
+  "B550M Aorus Elite AM4 DDR4",
+]
+target_price = 600
+require_ddr4 = true
+allow_ax = false
+alert_new_offers = true
+
+# Cupons são somente sugestões. Não coloque aqui cookies, senhas ou tokens de conta.
+# [coupons.EXEMPLO]
+# code = "EXEMPLO"
+# minimum_subtotal = 1000
+# discount = 100
+# expires_at = "2026-12-31T23:59:59-03:00"
